@@ -4,7 +4,6 @@ from app.Config import Config
 from dotenv import load_dotenv
 from app.extension import db,migrate,cors,jwt
 import os
-from app.tasks.celery_app import make_celery
 from app.api import register_bluprint
 # from elasticsearch import Elasticsearch
 
@@ -22,8 +21,8 @@ def create_app(config_class=Config):
     jwt.init_app(app)
     if app.config.get('TESTING'):
         return app
-    make_celery(app)
-    # es=Elasticsearch(hosts=['http://localhost:9200'])
+   
+ 
     
     
 # importer blueprint et instance celery
