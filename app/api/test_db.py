@@ -1,4 +1,4 @@
-from flask import Flask, jsonify,Blueprint
+from flask import jsonify,Blueprint
 from app.extension import db  # ton objet SQLAlchemy
 
 db_bp = Blueprint("db_bp", __name__)
