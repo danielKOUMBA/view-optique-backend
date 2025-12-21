@@ -17,7 +17,7 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app,db)
-    cors.init_app(app,supports_credentials=True,origins=['http://localhost:5173','http://127.0.0.1:5000'])
+    cors.init_app(app,supports_credentials=True,origins=['https://view-optique-vision.vercel.app/'])
     jwt.init_app(app)
     if app.config.get('TESTING'):
         return app
