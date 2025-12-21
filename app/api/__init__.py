@@ -11,7 +11,7 @@ from app.api.DeleteCommande import deleteCommande_bp
 from app.api.delete_cout import deleteCout_bp
 from app.api.updateCommande import update_bp
 from app.api.test_db import db_bp
-
+from app.api.create_admin import create_admin_bp
 
 def register_bluprint(app):
     app.register_blueprint(login_bp,url_prefix='/api')
@@ -27,4 +27,5 @@ def register_bluprint(app):
     app.register_blueprint(deleteCout_bp,url_prefix='/api')
     app.register_blueprint(update_bp,url_prefix='/api')
     app.register_blueprint(db_bp,url_prefix='/api')
+    app.register_blueprint(create_admin_bp,url_prefix='/api')
  
