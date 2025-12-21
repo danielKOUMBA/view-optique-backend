@@ -1,0 +1,32 @@
+# application factory
+from flask import Flask
+from app.Config import Config
+from dotenv import load_dotenv
+from app.extension import db,migrate,cors,jwt
+import os
+from app.tasks.celery_app import make_celery
+from app.api import register_bluprint
+# from elasticsearch import Elasticsearch
+
+
+load_dotenv()
+
+def create_app(config_class=Config):
+    app=Flask(__name__)
+    app.secret_key=os.getenv('JTW_SECRET_KEY')
+    app.config.from_object(config_class)
+
+    db.init_app(app)
+    migrate.init_app(app,db)
+    cors.init_app(app,supports_credentials=True,origins=['http://localhost:5173','http://127.0.0.1:5000'])
+    jwt.init_app(app)
+    if app.config.get('TESTING'):
+        return app
+    make_celery(app)
+    # es=Elasticsearch(hosts=['http://localhost:9200'])
+    
+    
+# importer blueprint et instance celery
+    register_bluprint(app)
+
+    return app
