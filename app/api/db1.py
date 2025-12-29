@@ -9,16 +9,16 @@ def upgrade_db():
     try:
         db.session.execute(text("""
             ALTER TABLE IF EXISTS commande
-            ALTER COLUMN 'date'
+            ALTER COLUMN "date"
             TYPE TIMESTAMP
-            USING 'date'::timestamp;
+            USING "date"::timestamp;
         """))
 
         db.session.execute(text("""
             ALTER TABLE IF EXISTS cout
-            ALTER COLUMN 'date'
+            ALTER COLUMN "date"
             TYPE TIMESTAMP
-            USING 'date'::timestamp;
+            USING "date"::timestamp;
         """))
 
         db.session.commit()
