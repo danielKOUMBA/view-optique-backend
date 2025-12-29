@@ -1,5 +1,6 @@
 from app.extension import db
 from datetime import datetime
+from sqlalchemy import DateTime
 
 class Commande(db.Model):
     tablename='commande'
@@ -10,7 +11,7 @@ class Commande(db.Model):
     produits=db.Column(db.String)
     status=db.Column(db.String)
     type=db.Column(db.String)
-    date=db.Column(db.Date,default=datetime.utcnow)
+    date=db.Column(DateTime,default=datetime.utcnow)
     prix_avancer=db.Column(db.Integer)
     prix_total=db.Column(db.Integer)
     

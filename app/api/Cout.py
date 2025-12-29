@@ -1,7 +1,7 @@
 from flask import Flask,request,jsonify,Blueprint
 from app.models import Cout
 from app.extension import db 
-from datetime import datetime
+from datetime import datetime,time
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
 cout_bp=Blueprint('cout_bp',__name__)
@@ -14,8 +14,15 @@ def Couts():
     if admin=='admin suppreme':
         date_str=data.get('date')
         date_ob=datetime.strptime(date_str,'%Y-%m-%d').date()
-        date_obj=date_ob.strftime('%Y-%m-%d')
-        cout=Cout(nom=data.get('depense'),prix=data.get('somme'),date=date_obj)
+        
+        date_final=datetime.combine(
+            date_ob,
+            time( 
+            hour=datetime.utcnow().hour,
+            minute=datetime.utcnow().minute,
+            second=datetime.utcnow().second)
+        )
+        cout=Cout(nom=data.get('depense'),prix=data.get('somme'),date=date_final)
         db.session.add(cout)
         db.session.commit()
         return jsonify(['Depenses enregistrer avec succes'])

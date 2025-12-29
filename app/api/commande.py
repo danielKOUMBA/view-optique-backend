@@ -1,7 +1,7 @@
 from flask import Blueprint,jsonify,request
 from app.models import Commande
 from flask_jwt_extended import jwt_required,get_jwt_identity
-from datetime import datetime
+from datetime import datetime,time
 from app.extension import db
 
 
@@ -25,13 +25,21 @@ def Commandes():
             status='payer'
         date_str=data.get('date')
         date_ob=datetime.strptime(date_str,'%Y-%m-%d').date()
-        date_obj=date_ob.strftime('%Y-%m-%d')
+      
+
+        date_final=datetime.combine(
+            date_ob,
+            time( 
+            hour=datetime.utcnow().hour,
+            minute=datetime.utcnow().minute,
+            second=datetime.utcnow().second)
+        )
 
         commandes=Commande(nom=data.get('nom'),
                             numero=data.get('numero'),
                             produits=data.get('produit'),
                             status=status,
-                            date=date_obj,
+                            date=date_final,
                             type=data.get('type'),
                             prix_avancer=prix_avancer,
                             prix_total=prix_total)

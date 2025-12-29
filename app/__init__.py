@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from app.extension import db,migrate,cors,jwt
 import os
 from app.api import register_bluprint
-# from elasticsearch import Elasticsearch
 
 
 load_dotenv()
@@ -19,7 +18,7 @@ def create_app(config_class=Config):
     with app.app_context():
         db.create_all()
     migrate.init_app(app,db)
-    cors.init_app(app,supports_credentials=True,origins=['https://view-optique-vision.vercel.app'])
+    cors.init_app(app,supports_credentials=True,origins=['https://view-optique-vision.vercel.app/'])
     jwt.init_app(app)
     if app.config.get('TESTING'):
         return app
@@ -31,3 +30,4 @@ def create_app(config_class=Config):
     register_bluprint(app)
 
     return app
+# https://view-optique-vision.vercel.app/
