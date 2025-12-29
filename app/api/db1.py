@@ -1,23 +1,29 @@
+from flask import Blueprint, jsonify
 from sqlalchemy import text
-from flask import Blueprint
-from sqlalchemy import text
-from app.extension import db  # ton objet SQLAlchemy
+from app.extension import db
 
-app_bp=Blueprint('app',__name__)
+app_bp = Blueprint('app', __name__)
+
 @app_bp.route("/upgrade-db")
 def upgrade_db():
-    db.session.execute(text("""
-        ALTER TABLE commande
-        ALTER COLUMN created_at
-        TYPE TIMESTAMP
-        USING created_at::timestamp;
-    """))
-    db.session.commit()
-    db.session.execute(text("""
-        ALTER TABLE cout
-        ALTER COLUMN created_at
-        TYPE TIMESTAMP
-        USING created_at::timestamp;
-    """))
-    db.session.commit()
-    return {"upgraded": True}
+    try:
+        db.session.execute(text("""
+            ALTER TABLE IF EXISTS commande
+            ALTER COLUMN created_at
+            TYPE TIMESTAMP
+            USING created_at::timestamp;
+        """))
+
+        db.session.execute(text("""
+            ALTER TABLE IF EXISTS cout
+            ALTER COLUMN created_at
+            TYPE TIMESTAMP
+            USING created_at::timestamp;
+        """))
+
+        db.session.commit()
+        return jsonify({"upgraded": True})
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
