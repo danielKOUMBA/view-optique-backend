@@ -34,7 +34,7 @@ def AllCommande():
         })
     result=sorted(
          result,
-         key=lambda x:datetime.strptime(x['date'],'%Y-%m-%d %H:%M:%S'),
+         key=lambda x:datetime.strptime(x['date'],'%Y-%m-%dT%H:%M:%S'),
          reverse=True
      )
     return jsonify(result), 200
