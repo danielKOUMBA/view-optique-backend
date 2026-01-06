@@ -2,6 +2,7 @@ from flask import jsonify,Blueprint
 from app.models.Cout import Cout
 from app.extension import db
 from flask_jwt_extended import jwt_required,get_jwt_identity
+from datetime import datetime
 
 allCout_bp=Blueprint('allCout_bp',__name__)
 
@@ -27,6 +28,11 @@ def allCout():
             }
             for c in cout
         ]
+    result=sorted(
+         result,
+         key=lambda x:datetime.strptime(x['date'],'%Y-%m-%d %H:%M:%S'),
+         reverse=True
+     )
 
     return jsonify(result)
     

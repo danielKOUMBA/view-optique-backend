@@ -2,6 +2,7 @@ from flask import jsonify, Blueprint
 from app.models.commande_table import Commande
 from app.extension import db
 from flask_jwt_extended import jwt_required,get_jwt_identity
+from datetime import datetime
 
 allCommande_bp = Blueprint('allCommande', __name__)
 
@@ -31,5 +32,9 @@ def AllCommande():
             'prix_avancer': float(c.prix_avancer),
             'prix_total': float(c.prix_total)
         })
-
+    result=sorted(
+         result,
+         key=lambda x:datetime.strptime(x['date'],'%Y-%m-%d %H:%M:%S'),
+         reverse=True
+     )
     return jsonify(result), 200
