@@ -14,6 +14,9 @@ from app.api.test_db import db_bp
 from app.api.create_admin import create_admin_bp
 from app.api.tresorerie_items import tresorerie_items
 from app.api.db1 import app_bp
+from app.api.chiffre_commande import chiffre_commande_bp
+from app.api.chiffres_depense import chiffre_depense_bp
+from app.api.chiffre_tresor import tresor_trie_bp
 
 def register_bluprint(app):
     app.register_blueprint(login_bp,url_prefix='/api')
@@ -32,3 +35,6 @@ def register_bluprint(app):
     app.register_blueprint(create_admin_bp,url_prefix='/api')
     app.register_blueprint(tresorerie_items,url_prefix='/api')
     app.register_blueprint(app_bp,url_prefix='/api')
+    app.register_blueprint(chiffre_commande_bp,url_prefix='/api')
+    app.register_blueprint(chiffre_depense_bp,url_prefix='/api')
+    app.register_blueprint(tresor_trie_bp,url_prefix='/api')
